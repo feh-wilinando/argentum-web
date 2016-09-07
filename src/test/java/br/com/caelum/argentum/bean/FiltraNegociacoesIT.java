@@ -79,7 +79,7 @@ public class FiltraNegociacoesIT {
 	}
 
 	@Test
-	public void verificaResultadosFiltradosNaTabela()
+	public void verificaResultadosFiltradosNaTabelaComCamposPreenchidos()
 			throws InterruptedException {
 		driver.navigate().to(HTTP_LOCALHOST_8888 + "/index.xhtml");
 
@@ -99,6 +99,34 @@ public class FiltraNegociacoesIT {
 		filtroDataAte.sendKeys(SDF.format(hojeMais10Dias()));
 
 		filtroDataAte.submit();
+
+		WebElement botaoFiltro = driver.findElement(By.name("botaoFiltro"));
+
+		botaoFiltro.click();
+
+		Thread.sleep(2000L);
+
+		linhasDaTabelaDeNotificacoes = driver.findElements(By
+				.xpath("//*[@id='tabelaNegociacoes']/div[2]/table/tbody/tr"));
+
+		int totalDeNotificacoesDepoisDoFiltroAplicado = linhasDaTabelaDeNotificacoes
+				.size();
+
+		Assert.assertTrue(totalDeNotificacoesDepoisDoFiltroAplicado < totalDeNotificacoesAntesDoFiltro);
+	}
+	
+	
+	
+	@Test
+	public void verificaResultadosFiltradosNaTabelaComCamposEmBranco()
+			throws InterruptedException {
+		driver.navigate().to(HTTP_LOCALHOST_8888 + "/index.xhtml");
+
+		List<WebElement> linhasDaTabelaDeNotificacoes = driver.findElements(By
+				.xpath("//*[@id='tabelaNegociacoes']/div[2]/table/tbody/tr"));
+
+		int totalDeNotificacoesAntesDoFiltro = linhasDaTabelaDeNotificacoes
+				.size();
 
 		WebElement botaoFiltro = driver.findElement(By.name("botaoFiltro"));
 
