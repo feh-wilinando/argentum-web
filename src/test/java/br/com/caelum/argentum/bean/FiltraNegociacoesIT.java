@@ -143,6 +143,36 @@ public class FiltraNegociacoesIT {
 		Assert.assertTrue(totalDeNotificacoesDepoisDoFiltroAplicado < totalDeNotificacoesAntesDoFiltro);
 	}
 
+	@Test
+	public void verificaResultadosFiltradosNaTabelaAposFiltrarDuasVezes()
+			throws InterruptedException {
+		driver.navigate().to(HTTP_LOCALHOST_8888 + "/index.xhtml");
+
+		List<WebElement> linhasDaTabelaDeNotificacoes = driver.findElements(By
+				.xpath("//*[@id='tabelaNegociacoes']/div[2]/table/tbody/tr"));
+
+		int totalDeNotificacoesAntesDoFiltro = linhasDaTabelaDeNotificacoes
+				.size();
+
+		WebElement botaoFiltro = driver.findElement(By.name("botaoFiltro"));
+
+		botaoFiltro.click();
+
+		Thread.sleep(2000L);
+
+		botaoFiltro.click();
+		
+		Thread.sleep(2000L);
+		
+		linhasDaTabelaDeNotificacoes = driver.findElements(By
+				.xpath("//*[@id='tabelaNegociacoes']/div[2]/table/tbody/tr"));
+
+		int totalDeNotificacoesDepoisDoFiltroAplicado = linhasDaTabelaDeNotificacoes
+				.size();
+
+		Assert.assertTrue(totalDeNotificacoesDepoisDoFiltroAplicado < totalDeNotificacoesAntesDoFiltro);
+	}
+
 	private Date hojeMais10Dias() {
 		Calendar data = Calendar.getInstance();
 		data.add(Calendar.DAY_OF_MONTH, 10);
