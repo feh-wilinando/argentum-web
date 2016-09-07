@@ -25,7 +25,8 @@ public class ClienteWebService {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
-			connection.disconnect();
+			if (connection != null)
+				connection.disconnect();
 		}
 	}
 }
